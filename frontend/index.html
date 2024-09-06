@@ -35,8 +35,8 @@
                 return;
             }
 
-            // Prepare the fetch request
-            fetch('https://mlops-backend.vercel.app/predict', {
+            // Prepare the fetch request to your backend on Vercel
+            fetch('https://mlops-backend.vercel.app/predict', {  // Update URL to your backend
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
