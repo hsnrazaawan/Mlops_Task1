@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Form</title>
+</head>
+<body>
+    <h1>Predict Total Deaths</h1>
+    
+    <form id="predictionForm">
+        <label for="inputData">Enter Input Data (comma separated):</label>
+        <input type="text" id="inputData" name="inputData" placeholder="e.g. 12000, 10000, 5000000">
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Prediction Result:</h2>
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const inputDataRaw = document.getElementById('inputData').value;
+            console.log('Raw input data:', inputDataRaw);
+            
+            // Split the input by commas and trim any extra spaces
+            const inputData = inputDataRaw.split(',').map(Number);
+            console.log('Processed input data:', inputData);
+
+            // Check if the input data is valid
+            if (inputData.some(isNaN)) {
+                console.error('Invalid input! Please enter valid numeric values.');
+                document.getElementById('result').textContent = 'Invalid input! Please enter valid numeric values.';
+                return;
+            }
+
+            // Prepare the fetch request
+            fetch('http://localhost:3000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: inputData })
+            })
+            .then(response => {
+                console.log('Response received from server:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Prediction data received:', data);
+                document.getElementById('result').textContent = 'Prediction: ' + data.prediction;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = 'An error occurred while processing the prediction.';
+            });
+        });
+    </script>
+</body>
+</html>
