@@ -4,7 +4,8 @@ import joblib
 import numpy as np
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes by default
+# Enable CORS and allow requests from your frontend's URL (adjust to your frontend's domain)
+CORS(app, origins=["https://mlops-task1-iota.vercel.app"])
 
 # Load the trained model from the .pkl file
 try:
@@ -34,3 +35,5 @@ def predict():
         # Log and return an error message
         print(f"Error during prediction: {e}")
         return jsonify({'error': 'An error occurred while processing the prediction', 'message': str(e)}), 500
+
+# Do NOT include app.run(), as Vercel will handle the deployment.
