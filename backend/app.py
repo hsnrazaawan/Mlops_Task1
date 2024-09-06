@@ -34,6 +34,3 @@ def predict():
         # Log and return an error message
         print(f"Error during prediction: {e}")
         return jsonify({'error': 'An error occurred while processing the prediction', 'message': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True, port=3000)  # Run Flask on port 3000
